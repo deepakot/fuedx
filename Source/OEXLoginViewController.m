@@ -153,14 +153,14 @@
     self.logo_container.accessibilityLabel = [[OEXConfig sharedConfig] platformName];
     self.logo_container.accessibilityHint = [Strings accessibilityImageVoiceOverHint];
     
-    NSString* environmentName = self.environment.config.environmentName;
-    if(environmentName.length > 0) {
-        NSString* appVersion = [NSBundle mainBundle].oex_buildVersionString;
-        self.versionLabel.text = [Strings versionDisplayWithNumber:appVersion environment:environmentName];
-    }
-    else {
+//    NSString* environmentName = self.environment.config.environmentName;
+//    if(environmentName.length > 0) {
+//        NSString* appVersion = [NSBundle mainBundle].oex_buildVersionString;
+//        self.versionLabel.text = [Strings versionDisplayWithNumber:appVersion environment:environmentName];
+//    }
+//    else {
         self.versionLabel.text = @"";
-    }
+//    }
     
     _placeHolderStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
     [self setAccessibilityIdentifiers];

@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>edX</string>
+	<string>Freedom U</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFiles</key>
@@ -70,8 +70,8 @@
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
 		<string>fb-messenger-api</string>
-        <string>msauthv2</string>
-        <string>msauthv3</string>
+		<string>msauthv2</string>
+		<string>msauthv3</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

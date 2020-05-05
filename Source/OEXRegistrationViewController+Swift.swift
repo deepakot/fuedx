@@ -28,6 +28,7 @@ extension OEXRegistrationViewController {
     
     @objc func register(withParameters parameter:[String:String]) {
         showProgress(true)
+        Logger.logInfo("register params=", "Request is")
         let infoDict :[String: String] = [OEXAnalyticsKeyProvider: self.externalProvider?.backendName ?? ""]
         environment.analytics.trackEvent(OEXAnalytics.registerEvent(name: AnalyticsEventName.UserRegistrationClick.rawValue, displayName: AnalyticsDisplayName.CreateAccount.rawValue), forComponent: nil, withInfo: infoDict)
         

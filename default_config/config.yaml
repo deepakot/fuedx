@@ -1,3 +1,3 @@
-API_HOST_URL: 'http://localhost:8000'
+API_HOST_URL: 'https://fu.school/'
 ENVIRONMENT_DISPLAY_NAME: 'Localhost'
-FEEDBACK_EMAIL_ADDRESS: 'support@example.com'
+FEEDBACK_EMAIL_ADDRESS: 'support@fu.school'

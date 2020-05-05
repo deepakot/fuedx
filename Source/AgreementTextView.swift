@@ -44,10 +44,10 @@ class AgreementTextView: UITextView {
             let tosUrl = config?.agreementURLsConfig.tosURL,
             let privacyPolicyUrl = config?.agreementURLsConfig.privacyPolicyURL {
             attributedString = attributedString.addLink(on: eulaText, value: eulaUrl)
-            attributedString = attributedString.addLink(on: tosText, value: tosUrl)
-            attributedString = attributedString.addLink(on: privacyPolicyText, value: privacyPolicyUrl)
+//            attributedString = attributedString.addLink(on: tosText, value: tosUrl)
+//            attributedString = attributedString.addLink(on: privacyPolicyText, value: privacyPolicyUrl)
         }
-        attributedText = attributedString
+//        attributedText = attributedString
         isUserInteractionEnabled = true
         isScrollEnabled = false
         isEditable = false
