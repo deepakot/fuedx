@@ -455,6 +455,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         return;
     }
     //Setting parameter 'honor_code'='true'
+    [parameters setObject:@"SA" forKey:@"country"];
     [parameters setObject:@"true" forKey:@"honor_code"];
 
     //As user is agree to the license setting 'terms_of_service'='true'
