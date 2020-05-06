@@ -22,7 +22,7 @@ extension CourseBlockDisplayType {
 }
 
 // Container for scrolling horizontally between different screens of course content
-public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, InterfaceOrientationOverriding, ChromeCastButtonDelegate {
+public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, InterfaceOrientationOverriding {
     
     public typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXRouterProvider & OEXConfigProvider
     
@@ -110,7 +110,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         }
         addObservers()
         
-        ChromeCastManager.shared.removeChromeCastButton(from: self, force: true)
     }
     
     private func addStreamListeners() {

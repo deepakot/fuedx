@@ -332,9 +332,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         isVisible = true
-        if !ChromeCastManager.shared.isMiniPlayerAdded {
-            applyScreenOrientation()
-        }
         resume()
     }
     
@@ -427,9 +424,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     func savePlayedTime(time: TimeInterval? = nil) {
-        if ChromeCastManager.shared.isMiniPlayerAdded {
-            return
-        }
         
         if let time = time {
             lastElapsedTime = time
@@ -501,9 +495,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        if !ChromeCastManager.shared.viewExpanded {
-            resetPlayer()
-        }
+        
     }
     
     func resetPlayer() {

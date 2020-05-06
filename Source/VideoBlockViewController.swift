@@ -26,8 +26,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     private var VOEnabledOnScreen = false
     var rotateDeviceMessageView : IconMessageView?
     private var video: OEXHelperVideoDownload?
-    private let chromeCastManager = ChromeCastManager.shared
-    private var chromeCastMiniPlayer: ChromeCastMiniPlayer?
     private var playOverlayButton: UIButton?
     private var overlayLabel: UILabel?
     
@@ -117,40 +115,10 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         NotificationCenter.default.oex_addObserver(observer: self, name: UIAccessibilityVoiceOverStatusChanged) { (_, observer, _) in
             observer.setAccessibility()
         }
-        chromeCastManager.viewExpanded = false
-    }
-    
-    private func configureChromecast() {
-        guard let video = video else { return }
-        if !chromeCastManager.isConnected || chromeCastMiniPlayer != nil { return }
-        
-        chromeCastMiniPlayer = ChromeCastMiniPlayer(environment: environment)
-        let isYoutubeVideo = (video.summary?.isYoutubeVideo ?? true)
-        guard let chromeCastMiniPlayer = chromeCastMiniPlayer, !isYoutubeVideo else { return }
-        addChild(chromeCastMiniPlayer)
-        contentView?.addSubview(chromeCastMiniPlayer.view)
-        chromeCastMiniPlayer.didMove(toParent: self)
-    }
-    
-    private func resetChromeCast() {
-        for controller in children {
-            if controller == chromeCastMiniPlayer {
-                controller.willMove(toParent: nil)
-                controller.view.removeFromSuperview()
-                controller.removeFromParent()
-            }
-        }
-        chromeCastManager.remove(delegate: self)
-        removeOverlayCastMessage()
-        removeChromeCastButton()
-        chromeCastMiniPlayer = nil
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if !chromeCastManager.viewExpanded {
-            resetChromeCast()
-        }
     }
     
     override func viewDidAppear(_ animated : Bool) {
@@ -163,21 +131,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         view.layoutIfNeeded()
         super.viewDidAppear(animated)
         
-        if !chromeCastManager.viewExpanded {
-            loadVideoIfNecessary()
-        }
-        chromeCastManager.add(delegate: self)
-        chromeCastManager.viewExpanded = false
-        
-        if !chromeCastManager.isConnected && videoTranscriptView?.transcripts.count ?? 0 > 0 {
-            validateSubtitleTimer()
-        }
-        
-        if !(video?.summary?.isYoutubeVideo ?? true) {
-            addChromeCastButton()
-            showChromeCastOverlay()
-        }
-        
         if !(environment.interface?.canDownload() ?? false) {
             guard let video = environment.interface?.stateForVideo(withID: blockID, courseID : courseID), video.downloadState == .complete else {
                 showOverlay(withMessage: environment.interface?.networkErrorMessage() ?? Strings.noWifiMessage)
@@ -189,16 +142,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         subtitleTimer.invalidate()
-    }
-    
-    private func addChromeCastButton() {
-        guard let parent = parent else { return }
-        chromeCastManager.addChromeCastButton(over: parent)
-    }
-    
-    private func removeChromeCastButton() {
-        guard let parent = parent else { return }
-        chromeCastManager.removeChromeCastButton(from: parent, force: true)
     }
     
     func setAccessibility() {
@@ -238,8 +181,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     private func updateControlsVisibility(hide: Bool) {
         rotateDeviceMessageView?.isHidden = hide
         videoTranscriptView?.transcriptTableView.isHidden = hide
-        chromeCastManager.isMiniPlayerAdded = hide
-        chromeCastMiniPlayer?.view.isHidden = !hide
     }
     
     private func cast(video: OEXHelperVideoDownload, time: TimeInterval? = nil) {
@@ -247,7 +188,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         updateControlsVisibility(hide: true)
         videoPlayer.loadingIndicatorView.stopAnimating()
         videoPlayer.removeControls()
-        configureChromecast()
         
         var playedTime: TimeInterval = 0.0
         if let time = time {
@@ -256,7 +196,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         else {
             playedTime = TimeInterval(environment.interface?.lastPlayedInterval(forVideo: video) ?? 0)
         }
-        chromeCastMiniPlayer?.play(video: video, time: playedTime)
     }
     
     private func playLocally(video: OEXHelperVideoDownload, time: TimeInterval? = nil) {
@@ -307,7 +246,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
             make.bottom.equalTo(view.snp.bottom).offset(-barHeight)
         }
         
-        setChromeCastPlayerConstraints()
     }
     
     private func applyLandscapeConstraints() {
@@ -317,9 +255,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         }
         
         var playerHeight = view.bounds.size.height - (navigationController?.toolbar.bounds.height ?? 0)
-        if chromeCastManager.isMiniPlayerAdded {
-            playerHeight -= ChromeCastMiniPlayerHeight
-        }
         
         videoPlayer.view.snp.remakeConstraints { make in
             make.leading.equalTo(contentView)
@@ -339,16 +274,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
             make.height.equalTo(0.0)
         }
         
-        setChromeCastPlayerConstraints()
-    }
-    
-    private func setChromeCastPlayerConstraints() {
-        chromeCastMiniPlayer?.view.snp.remakeConstraints { make in
-            make.leading.equalTo(safeLeading)
-            make.trailing.equalTo(safeTrailing)
-            make.height.equalTo(ChromeCastMiniPlayerHeight)
-            make.bottom.equalTo(safeBottom)
-        }
     }
     
     private func showError(error : NSError?) {
@@ -375,11 +300,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     private func play(video: OEXHelperVideoDownload) {
-        if chromeCastManager.isConnected && !(video.summary?.isYoutubeVideo ?? true) {
-            cast(video: video)
-        } else {
-            playLocally(video: video)
-        }
+        playLocally(video: video)
         environment.interface?.insertVideoData(video)
     }
     
@@ -408,7 +329,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         DispatchQueue.main.async {[weak self] in
             if let weakSelf = self {
-                if weakSelf.chromeCastManager.isMiniPlayerAdded { return }
                 
                 if weakSelf.videoPlayer.isFullScreen {
                     if newCollection.verticalSizeClass == .regular {
@@ -509,18 +429,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         }
     }
     
-    //MARK:- ChromeCastHelper
-    
-    private func showChromeCastOverlay() {
-        // Introductory overlay needs reference to castButton which is available in CourseContentPageViewController,
-        // This function calls before the castButton is initialized so we get x, y as 0 in its container,
-        // We put a delay of 2 sec to get castButton from navigationbar item then decouple it and assgin to call.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-            guard let parentController = self?.parent as? CourseContentPageViewController,
-                let items = parentController.navigationItem.rightBarButtonItems else { return }
-            self?.chromeCastManager.showIntroductoryOverlay(items: items)
-        }
-    }
     
     private func addOverlyCastMessage() {
         if overlayLabel != nil { return }
@@ -529,7 +437,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         guard let overlayLabel = overlayLabel else { return }
         view.addSubview(overlayLabel)
         let style = OEXTextStyle(weight: .normal, size: .large, color: .white)
-        overlayLabel.attributedText = style.attributedString(withText: Strings.chromecastMessage)
         
         overlayLabel.snp.makeConstraints({ (make) in
             make.center.equalTo(videoPlayer.view)
@@ -537,7 +444,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     private func removeOverlayCastMessage() {
-        chromeCastMiniPlayer?.view.isHidden = true
         overlayLabel?.text = ""
         overlayLabel?.isHidden = true
         overlayLabel?.removeFromSuperview()
@@ -546,7 +452,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     
     func createOverlayPlayButton() {
         if playOverlayButton != nil { return }
-        chromeCastManager.isMiniPlayerAdded = false
         removeOverlayCastMessage()
         playOverlayButton = UIButton()
         playOverlayButton?.tintColor = .white
@@ -580,43 +485,5 @@ extension VideoBlockViewController {
         guard let username = environment.session.currentUser?.username, let blockID = blockID else { return }
         let networkRequest = VideoCompletionApi.videoCompletion(username: username, courseID: courseID, blockID: blockID)
         environment.networkManager.taskForRequest(networkRequest) { _ in }
-    }
-}
-
-//MARK:- ChromeCastPlayerStatusDelegate
-
-extension VideoBlockViewController: ChromeCastPlayerStatusDelegate {
-    func chromeCastDidConnect() {
-        if videoPlayer.isFullScreen {
-            videoPlayer.setFullscreen(fullscreen: false, animated: true, with: currentOrientation(), forceRotate: false)
-        }
-        let time = videoPlayer.currentTime
-        videoPlayer.resetPlayer()
-        
-        guard let video = video else {
-            loadVideoIfNecessary()
-            return
-        }
-        
-        cast(video: video, time: time)
-    }
-    
-    func chromeCastDidDisconnect(playedTime: TimeInterval) {
-        removeOverlayCastMessage()
-        removeOverlayPlayButton()
-        guard let video = video else {
-            loadVideoIfNecessary()
-            return
-        }
-        playLocally(video: video, time: playedTime)
-    }
-    
-    func chromeCastVideoPlaying() {
-
-    }
-    
-    func chromeCastDidFinishPlaying() {
-        createOverlayPlayButton()
-        videoPlayer.savePlayedTime(time: .zero)
     }
 }

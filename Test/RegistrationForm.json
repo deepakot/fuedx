@@ -61,13 +61,13 @@
                "label": "Password"
                }, {
                "restrictions": {},
-               "required": false,
+               "required": true,
                "name": "country",
                "errorMessages": {
                "required": "Please select your Country."
                },
-               "placeholder": "SA",
-               "defaultValue": "SA-deepa",
+               "placeholder": "",
+               "defaultValue": "",
                "instructions": "",
                "type": "select",
                "options": [{

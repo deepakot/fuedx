@@ -8,10 +8,11 @@
 
 import UIKit
 
-class RegistrationFieldSelectView: RegistrationFormFieldView {
+class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelegate, UIPickerViewDataSource {
     @objc var options : [OEXRegistrationOption] = []
     @objc private(set) var selected : OEXRegistrationOption?
     
+    @objc let picker = UIPickerView(frame: CGRect.zero)
     private let dropdownView = UIView(frame: CGRect(x: 0, y: 0, width: 27, height: 40))
     private let dropdownTab = UIImageView()
     private let tapButton = UIButton()
@@ -30,35 +31,35 @@ class RegistrationFieldSelectView: RegistrationFormFieldView {
     
     override func loadView() {
         super.loadView()
-//        picker.dataSource = self
-//        picker.delegate = self
-//        picker.showsSelectionIndicator = true;
-//        picker.accessibilityIdentifier = "RegistrationFieldSelectView:picker-view"
-//        textInputField.isEnabled = false
-//        dropdownView.addSubview(dropdownTab)
-//        dropdownView.layoutIfNeeded()
-//        dropdownTab.image = Icon.Dropdown.imageWithFontSize(size: 12)
-//        dropdownTab.tintColor = OEXStyles.shared().neutralDark()
-//        dropdownTab.contentMode = .scaleAspectFit
-//        dropdownTab.sizeToFit()
-//        dropdownTab.center = dropdownView.center
-//        tapButton.localizedHorizontalContentAlignment = .Leading
-//        textInputField.rightViewMode = .always
-//        textInputField.rightView = dropdownView
-//        tapButton.oex_addAction({[weak self] _ in
-//            self?.makeFirstResponder()
-//            }, for: UIControl.Event.touchUpInside)
-//        self.addSubview(tapButton)
-//
-//        tapButton.snp.makeConstraints { make in
-//            make.top.equalTo(textInputField)
-//            make.leading.equalTo(textInputField)
-//            make.trailing.equalTo(textInputField)
-//            make.bottom.equalTo(textInputField)
-//        }
-//        let insets = OEXStyles.shared().standardTextViewInsets
-//        tapButton.titleEdgeInsets = UIEdgeInsets.init(top: 0, left: insets.left, bottom: 0, right: insets.right)
-//        refreshAccessibilty()
+        picker.dataSource = self
+        picker.delegate = self
+        picker.showsSelectionIndicator = true;
+        picker.accessibilityIdentifier = "RegistrationFieldSelectView:picker-view"
+        textInputField.isEnabled = false
+        dropdownView.addSubview(dropdownTab)
+        dropdownView.layoutIfNeeded()
+        dropdownTab.image = Icon.Dropdown.imageWithFontSize(size: 12)
+        dropdownTab.tintColor = OEXStyles.shared().neutralDark()
+        dropdownTab.contentMode = .scaleAspectFit
+        dropdownTab.sizeToFit()
+        dropdownTab.center = dropdownView.center
+        tapButton.localizedHorizontalContentAlignment = .Leading
+        textInputField.rightViewMode = .always
+        textInputField.rightView = dropdownView
+        tapButton.oex_addAction({[weak self] _ in
+            self?.makeFirstResponder()
+            }, for: UIControl.Event.touchUpInside)
+        self.addSubview(tapButton)
+
+        tapButton.snp.makeConstraints { make in
+            make.top.equalTo(textInputField)
+            make.leading.equalTo(textInputField)
+            make.trailing.equalTo(textInputField)
+            make.bottom.equalTo(textInputField)
+        }
+        let insets = OEXStyles.shared().standardTextViewInsets
+        tapButton.titleEdgeInsets = UIEdgeInsets.init(top: 0, left: insets.left, bottom: 0, right: insets.right)
+        refreshAccessibilty()
     }
     
     override func layoutSubviews() {
@@ -87,8 +88,41 @@ class RegistrationFieldSelectView: RegistrationFormFieldView {
         return true
     }
     
+    override var inputView : UIView {
+        return picker
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return options.count
+    }
+
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return options[row].name
+    }
+
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        selected = options[row]
+        if let selected = selected, !selected.value.isEmpty {
+            setButtonTitle(title: selected.name)
+        }
+        else {
+            setButtonTitle(title: "")
+        }
+        endEditing(true)
+        valueDidChange()
+    }
+
+    func makeFirstResponder() {
+        becomeFirstResponder()
+        UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: picker)
     }
 
     override func validate() -> String? {

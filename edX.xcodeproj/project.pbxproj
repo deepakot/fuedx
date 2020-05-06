@@ -11,8 +11,6 @@
 		021AD6281F166F78009AF653 /* CourseCatalogDetailViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 777DE7171C1649630068E280 /* CourseCatalogDetailViewControllerTests.swift */; };
 		021AD6291F166F7F009AF653 /* Dictionary+SafeAccessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021AD6261F166331009AF653 /* Dictionary+SafeAccessTests.swift */; };
 		0B1212221B4F089A002EE96C /* OEXCoursewareAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1212211B4F089A002EE96C /* OEXCoursewareAccess.m */; };
-		0D15761B235ED91A0007B0B7 /* GoogleCast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D15761A235ED91A0007B0B7 /* GoogleCast.framework */; };
-		0D15761C235ED91A0007B0B7 /* GoogleCast.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D15761A235ED91A0007B0B7 /* GoogleCast.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0D15761E235ED9800007B0B7 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D15761D235ED9800007B0B7 /* Accelerate.framework */; };
 		0D157620235ED98E0007B0B7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D15761F235ED98D0007B0B7 /* AudioToolbox.framework */; };
 		0D157622235ED9990007B0B7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D157621235ED9980007B0B7 /* AVFoundation.framework */; };
@@ -22,11 +20,7 @@
 		0D15762D235ED9F30007B0B7 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D15762B235ED9F30007B0B7 /* MediaPlayer.framework */; };
 		0D15762E235ED9F30007B0B7 /* MediaAccessibility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D15762C235ED9F30007B0B7 /* MediaAccessibility.framework */; };
 		0D157630235EDA040007B0B7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D15762F235EDA040007B0B7 /* Security.framework */; };
-		0D157633235EDA7C0007B0B7 /* ChromeCastButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D157632235EDA7C0007B0B7 /* ChromeCastButtonDelegate.swift */; };
-		0D157635235EDA950007B0B7 /* ChromeCastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D157634235EDA950007B0B7 /* ChromeCastManager.swift */; };
 		0D157636235EDAA30007B0B7 /* GoogleCast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D15761A235ED91A0007B0B7 /* GoogleCast.framework */; };
-		0D930BC223680983001C80AF /* ChromeCastMiniPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D930BC123680983001C80AF /* ChromeCastMiniPlayer.swift */; };
-		0D930BC4236978D6001C80AF /* ChromeCastMetaDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D930BC3236978D6001C80AF /* ChromeCastMetaDataModel.swift */; };
 		1904A14C1A1386C2006A5524 /* OEXDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1904A1401A1386C2006A5524 /* OEXDBManager.m */; };
 		1904A14D1A1386C2006A5524 /* edXDB.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 1904A1411A1386C2006A5524 /* edXDB.xcdatamodel */; };
 		1904A14E1A1386C2006A5524 /* VideoData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1904A1431A1386C2006A5524 /* VideoData.m */; };
@@ -929,7 +923,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				5F514FBB240696D700BA113A /* MSAL.framework in Embed Frameworks */,
-				0D15761C235ED91A0007B0B7 /* GoogleCast.framework in Embed Frameworks */,
 				77E647CB1C90CA1400B6740D /* edXCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -2088,7 +2081,6 @@
 				0D157622235ED9990007B0B7 /* AVFoundation.framework in Frameworks */,
 				0D157620235ED98E0007B0B7 /* AudioToolbox.framework in Frameworks */,
 				0D15761E235ED9800007B0B7 /* Accelerate.framework in Frameworks */,
-				0D15761B235ED91A0007B0B7 /* GoogleCast.framework in Frameworks */,
 				8F562F901A1F451600320DB3 /* CoreMotion.framework in Frameworks */,
 				8F562F8E1A1F450A00320DB3 /* AssetsLibrary.framework in Frameworks */,
 				8F562F8C1A1F44FC00320DB3 /* AddressBook.framework in Frameworks */,
@@ -5080,7 +5072,6 @@
 				776459821A09650C008404CC /* NSDictionary+OEXEncoding.m in Sources */,
 				9C9B7F731A8CC80E00A857B2 /* OEXURLSessionManager.m in Sources */,
 				699FF8541E5AE74300AD98A5 /* EmailTemplates.swift in Sources */,
-				0D157633235EDA7C0007B0B7 /* ChromeCastButtonDelegate.swift in Sources */,
 				199627A71945D95D0022C489 /* OEXFrontTableViewCell.m in Sources */,
 				B7CCC71D209B16B100A66923 /* ConstraintMultiplierTarget.swift in Sources */,
 				1913DD3D194B267000573977 /* OEXDownloadViewController.m in Sources */,
@@ -5089,7 +5080,6 @@
 				7764597F1A096339008404CC /* NSString+OEXEncoding.m in Sources */,
 				77BC3E691AE0091400E51529 /* OEXPushNotificationProcessor.m in Sources */,
 				775E5A811BE1C88A0046B26B /* LiveObjectCache.swift in Sources */,
-				0D930BC4236978D6001C80AF /* ChromeCastMetaDataModel.swift in Sources */,
 				B78823A51FC6F59A00F9CD61 /* RegistrationFormFieldView.swift in Sources */,
 				77DC295E1ABC9D4400FAD22C /* NSObject+OEXReplaceNull.m in Sources */,
 				B4B6D6031A949EFC000F44E8 /* OEXRegistrationOption.m in Sources */,
@@ -5157,7 +5147,6 @@
 				77236EEB1C21C32E006AC1A4 /* PaginationController.swift in Sources */,
 				1AFEB1B31BBD52C7004C471D /* JSONFormBuilderTextEditor.swift in Sources */,
 				B4B6D6391A95042B000F44E8 /* OEXCheckBoxView.m in Sources */,
-				0D157635235EDA950007B0B7 /* ChromeCastManager.swift in Sources */,
 				1A22CD901B90B31A005B07D0 /* UIImage+OEXIcon.swift in Sources */,
 				1ACD163C1BB1BE63006ACC82 /* UserProfileViewController.swift in Sources */,
 				5D836DCA1B2FA12E00411CAB /* DiscussionNewCommentViewController.swift in Sources */,
@@ -5184,7 +5173,6 @@
 				2283C7532060EF8600A2E9BE /* MathUtilities.swift in Sources */,
 				77E6487F1C9133C600B6740D /* SessionUsernameProvider.swift in Sources */,
 				E03E6A171D38EB9000944AAA /* SnackbarViews.swift in Sources */,
-				0D930BC223680983001C80AF /* ChromeCastMiniPlayer.swift in Sources */,
 				77C901A71BBDDD630016E468 /* TableCellStyle.swift in Sources */,
 				7772BE7A1AF41E660081CA7A /* CourseBlockViewController.swift in Sources */,
 				7748F5781AEAB5C200767700 /* OEXSwitchStyle.m in Sources */,
@@ -5655,7 +5643,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = Q79HAV2X86;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -6114,7 +6102,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = Q79HAV2X86;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -6162,7 +6150,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = Q79HAV2X86;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

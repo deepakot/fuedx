@@ -235,17 +235,6 @@
         [Fabric with:@[CrashlyticsKit]];
     }
     
-    [self initilizeChromeCast];
-}
-
-- (void) initilizeChromeCast {
-    // Ideally this should be in ChromeCastManager but
-    // due to some weird SDK bug, chrome cast is not properly initializing from the swift classes.
-    GCKDiscoveryCriteria *criteria = [[GCKDiscoveryCriteria alloc] initWithApplicationID: kGCKDefaultMediaReceiverApplicationID];
-    GCKCastOptions *options = [[GCKCastOptions alloc] initWithDiscoveryCriteria:criteria];
-    [GCKCastContext setSharedInstanceWithOptions:options];
-    GCKCastContext.sharedInstance.useDefaultExpandedMediaControls = true;
-    [ChromeCastManager.shared configureWithEnvironment:self.environment.router.environment];
 }
 
 - (void) configureFabricKits:(NSDictionary*) launchOptions {
