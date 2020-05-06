@@ -80,18 +80,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>so you can use bluetooth enabled devices</string>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>so you can use bluetooth enabled devices</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>so user can intract with calendar</string>
 	<key>NSCameraUsageDescription</key>
 	<string>so you can take a picture for a profile image</string>
-	<key>NSContactsUsageDescription</key>
-	<string>so you can save a contact</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>so app can use user location</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>so user can intract with Microphone</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
